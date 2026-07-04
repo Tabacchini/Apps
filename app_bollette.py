@@ -12,14 +12,13 @@ Original file is located at
 import streamlit as st
 
 
-def consumo_utente(prezzo_unita, prezzo_fisso_mensile, unita_consumate, totale_ricalcolo, iva, partite):
+def consumo_utente(prezzo_unita, prezzo_fisso_mensile, unita_consumate, iva, partite):
     prezzo_fisso_mensile /= 2
-    totale_ricalcolo /= 2
     iva /= 2
 
     prezzo_consumo = prezzo_unita * unita_consumate
 
-    totale = (prezzo_fisso_mensile - totale_ricalcolo + iva + prezzo_consumo + partite)
+    totale = (prezzo_fisso_mensile + iva + prezzo_consumo + partite/2)
 
     return totale
 
@@ -27,12 +26,11 @@ def consumo_utente(prezzo_unita, prezzo_fisso_mensile, unita_consumate, totale_r
 st.title("Calcolo Consumo Utente")
 
 prezzo_unita = st.number_input("Prezzo unità (€/Smc)", value=0.0)
-prezzo_fisso = st.number_input("Prezzo fisso mensile (€)", value=0.0)
-unita = st.number_input("Unità consumate", value=0.0)
-ricalcolo = st.number_input("Totale ricalcolo (€)", value=0.0)
+prezzo_fisso = st.number_input("Quota fissa (€)", value=0.0)
+unita = st.number_input("Unità consumate utente", value=0.0)
 iva = st.number_input("IVA (€)", value=0.0)
-partite = st.number_input("Partite (€)", value=0.0)
+partite = st.number_input("Altre partite (€)", value=0.0)
 
 if st.button("Calcola"):
-    risultato = consumo_utente(prezzo_unita, prezzo_fisso, unita, ricalcolo, iva, partite)
+    risultato = consumo_utente(prezzo_unita, prezzo_fisso, unita, iva, partite)
     st.success(f"Totale: {risultato:.2f} €")
